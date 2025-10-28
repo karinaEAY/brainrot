@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Steal a Brainrot Skins</title>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+   <style>
+       /* Анімація градієнтного фону */
+       @keyframes gradientAnimation {
+           0% { background-position: 0% 50%; }
+           50% { background-position: 100% 50%; }
+           100% { background-position: 0% 50%; }
+       }
+
+       /* Анімація для рухомих фігур */
+       @keyframes moveShape {
+           0% {
+               transform: translateY(100vh) scale(0.7);
+               opacity: 0;
+           }
+           10%, 90% {
+               opacity: 1;
+           }
+           100% {
+               transform: translateY(-100px) scale(1.1);
+               opacity: 0;
+           }
+       }
+
+       body {
+           font-family: 'Poppins', sans-serif;
+           /* Темніший анімований градієнт */
+           background: linear-gradient(-45deg, #1a2a6c, #b21f1f, #fdbb2d, #3c0c7d); /* Глибокий синій, червоний, жовтий, фіолетовий */
+           background-size: 400% 400%;
+           animation: gradientAnimation 15s ease infinite;
+           color: #e0e0e0; /* Світлий текст для контрасту */
+           position: relative;
+           overflow-x: hidden;
+       }
+
+       /* Контейнер для анімацій фону */
+       #background-animations {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           z-index: 0;
+           overflow: hidden;
+           pointer-events: none;
+       }
+
+       .shape {
+           position: absolute;
+           background-color: rgba(255, 255, 255, 0.1); /* Дуже напівпрозорий білий для темного фону */
+           border-radius: 50%;
+           opacity: 0;
+           animation: moveShape 20s linear infinite;
+           bottom: -150px;
+       }
+
+       /* Різні розміри, позиції та швидкості */
+       .shape-1 {
+           width: 80px;
+           height: 80px;
+           left: 10%;
+           animation-duration: 25s;
+           animation-delay: -5s;
+       }
+       .shape-2 {
+           width: 120px;
+           height: 120px;
+           left: 40%;
+           animation-duration: 30s;
+           animation-delay: -10s;
+       }
+       .shape-3 {
+           width: 50px;
+           height: 50px;
+           left: 70%;
+           animation-duration: 20s;
+           animation-delay: -2s;
+       }
+       .shape-4 {
+           width: 150px;
+           height: 150px;
+           left: 85%;
+           animation-duration: 35s;
+           animation-delay: -15s;
+       }
+       .shape-5 {
+           width: 100px;
+           height: 100px;
+           left: 25%;
+           animation-duration: 28s;
+           animation-delay: -7s;
+       }
+       .shape-6 {
+           width: 60px;
+           height: 60px;
+           left: 55%;
+           animation-duration: 22s;
+           animation-delay: -12s;
+       }
+
+
+       /* Весь основний контент має бути вище фонових анімацій */
+       .main-content {
+           position: relative;
+           z-index: 1;
+       }
+
+       .font-roblox {
+           font-family: 'Press Start 2P', cursive;
+       }
+       .card {
+           background-color: #2d3748; /* Темний фон картки */
+           border: 2px solid #4a5568; /* Темно-сірий бордер */
+           color: #e0e0e0; /* Світлий текст на картці */
+           transition: transform 0.3s ease, box-shadow 0.3s ease;
+           position: relative;
+           z-index: 1;
+       }
+       .card:hover {
+           transform: translateY(-10px);
+           box-shadow: 0 10px 20px rgba(100, 100, 255, 0.3); /* Синя тінь при наведенні */
+       }
+       .card.selected {
+           border-color: #6366f1; /* Фіолетово-синій бордер для обраної картки */
+           box-shadow: 0 0 15px rgba(99, 102, 241, 0.6); /* Фіолетово-синя тінь */
+       }
+       .btn {
+           font-weight: bold;
+           transition: all 0.3s ease;
+           transform: scale(1);
+       }
+       .btn:hover {
+           transform: scale(1.05);
+       }
+       /* Оновлені кольори кнопок */
+       .btn-purple { background-color: #6366f1; color: #ffffff; } /* Фіолетово-синій */
+       .btn-purple:hover { background-color: #4f46e5; }
+       .btn-green { background-color: #22d3ee; color: #ffffff; } /* Світло-блакитний */
+       .btn-green:hover { background-color: #06b6d4; }
+       .btn:disabled { background-color: #4a5568; color: #a0aec0; cursor: not-allowed; transform: none; } /* Темно-сірий */
+
+       /* Modal Animation Styles */
+       .modal-backdrop {
+           background-color: rgba(0, 0, 0, 0.7);
+           transition: opacity 0.3s ease-in-out;
+           z-index: 49;
+       }
+       .modal-backdrop.hidden {
+           opacity: 0;
+           pointer-events: none;
+       }
+       .modal-content {
+           background-color: #2d3748; /* Темний фон модального вікна */
+           border: 2px solid #6366f1;
+           transform: translateY(0);
+           opacity: 1;
+           transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease-out;
+           position: relative;
+           z-index: 50;
+       }
+       .modal-backdrop.hidden .modal-content {
+           transform: translateY(100vh);
+           opacity: 0;
+       }
+
+
+       /* Continue Button Animation */
+       #continueBtnContainer {
+           transition: opacity 0.5s ease, transform 0.5s ease;
+           position: fixed;
+           z-index: 10;
+       }
+       #continueBtnContainer.hidden {
+           opacity: 0;
+           transform: translateY(200%);
+           pointer-events: none;
+       }
+
+       /* Progress Bar */
+       #progressBar {
+           transition: width 0.25s ease-in-out;
+       }
+       
+       /* Стиль для успішного статусу */
+       .claiming-status-success {
+           color: #4ade80; /* Світло-зелений для успіху */
+       }
+   </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 pb-32">
+
+   <!-- Контейнер для анімацій --><div id="background-animations">
+       <div class="shape shape-1"></div>
+       <div class="shape shape-2"></div>
+       <div class="shape shape-3"></div>
+       <div class="shape shape-4"></div>
+       <div class="shape shape-5"></div>
+       <div class="shape shape-6"></div>
+   </div>
+
+   <!-- Обгортка для основного контенту --><div class="w-full max-w-7xl mx-auto text-center main-content">
+       <!-- Оновлені кольори заголовку --><h1 class="text-4xl md:text-6xl font-roblox text-indigo-400 mb-12 drop-shadow-[0_0_10px_rgba(99,102,241,0.7)]">
+           Steal a Brainrot
+       </h1>
+
+
+       <!-- Skin Gallery --><div id="skin-gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+           <!-- Skin cards will be dynamically inserted here by JavaScript --></div>
+   </div>
+
+
+   <!-- Continue Button Container --><div id="continueBtnContainer" class="bottom-0 left-0 right-0 p-4 flex justify-center hidden">
+       <button id="continueBtn" class="px-12 py-4 rounded-lg btn btn-purple text-2xl">Continue</button>
+   </div>
+
+
+   <!-- Modal 1: Account Search --><div id="searchModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+       <div id="searchModalContent" class="modal-content rounded-xl shadow-lg w-full max-w-lg text-center p-8">
+           <!-- Initial State --><div id="searchInitialState">
+               <!-- Оновлені кольори тексту --><h2 class="text-3xl font-bold text-indigo-400 mb-2">Find Your Account</h2>
+               <p class="text-gray-400 mb-6 text-lg">Enter your Roblox username</p>
+               <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                   <!-- Оновлені кольори поля вводу --><input type="text" id="nicknameInput" placeholder="Username" class="w-full sm:w-80 px-4 py-3 bg-gray-700 border-2 border-gray-600 rounded-lg text-white text-lg focus:outline-none focus:border-indigo-500 transition-all duration-300">
+                   <button id="searchBtn" class="px-6 py-3 rounded-lg btn btn-green text-lg flex-shrink-0">Search</button>
+               </div>
+           </div>
+           <!-- Searching State --><div id="searchingState" class="hidden">
+               <p class="text-3xl font-bold text-indigo-400 animate-pulse">Searching...</p>
+           </div>
+           <!-- Found State --><div id="foundState" class="hidden">
+               <h2 class="text-3xl font-bold text-green-400 mb-2">User Found!</h2>
+               <!-- Оновлені кольори фону --><p id="foundUsername" class="text-xl mb-6 bg-gray-700 text-white p-4 rounded-lg"></p>
+               <button id="claimBtn" class="w-full px-8 py-4 rounded-lg btn btn-green text-xl">Claim For This User</button>
+           </div>
+       </div>
+   </div>
+
+   <!-- Modal 2: Claiming Progress --><div id="claimingModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+       <div class="modal-content rounded-xl shadow-lg w-full max-w-lg text-center p-8">
+           <h2 class="text-3xl font-bold text-indigo-400 mb-4">Adding Items to Your Account...</h2>
+           <!-- Оновлений фон контейнера --><div id="selectedItemsContainer" class="grid grid-cols-4 gap-4 mb-6 max-h-48 overflow-y-auto p-2 bg-gray-700 rounded-lg">
+               <!-- Selected items will be shown here --></div>
+           <!-- Оновлений фон прогрес-бару --><div class="w-full bg-gray-600 rounded-full h-8 mb-2">
+               <div id="progressBar" class="bg-indigo-500 h-8 rounded-full text-center text-white font-bold leading-8 text-lg" style="width: 0%">0%</div>
+           </div>
+           <p id="claimingStatus" class="text-2xl text-gray-300 h-10"></p>
+       </div>
+   </div>
+
+
+
+
+   <script>
+       const skins = [
+           { name: "Matteo", image: "https://static.wikia.nocookie.net/stealabr/images/7/7d/Matteofr.png/revision/latest?cb=20250816180126" },
+           { name: "La Spooky Grande", image: "https://static.wikia.nocookie.net/stealabr/images/5/51/Spooky_Grande.png/revision/latest?cb=20251012022949" },
+           { name: "Los Combinasionas", image: "https://static.wikia.nocookie.net/stealabr/images/3/36/Stop_taking_my_chips_im_just_a_baybeh.png/revision/latest?cb=20250909223756" },
+           { name: "Lucky Block", image: "https://static.wikia.nocookie.net/stealabr/images/7/76/Childhood_gambling.png/revision/latest?cb=20250902180130" },
+           { name: "Pot Pumpkin", image: "https://static.wikia.nocookie.net/stealabr/images/5/5e/PotPumpkin.png.png/revision/latest?cb=20251027224603" },
+           { name: "Taco TUESDAYYYYYYYY", image: "https://static.wikia.nocookie.net/stealabr/images/2/29/Taco_TUESDAYYYYYYYY.png/revision/latest?cb=20251028100210" },
+           { name: "Spooky and Pumpky", image: "https://static.wikia.nocookie.net/stealabr/images/9/91/Static-assets-upload4649155494631038601.webp/revision/latest?cb=20251027003433" },
+           { name: "Los Tralaleritos", image: "https://static.wikia.nocookie.net/stealabr/images/0/0f/Los_Tralaleritos.png/revision/latest?cb=20250816183135" },
+           { name: "Espresso Signora", image: "https://static.wikia.nocookie.net/stealabr/images/4/48/Espresso_Signora.png/revision/latest?cb=20250902180333" },
+           { name: "LasTralaleritas", image: "https://static.wikia.nocookie.net/stealabr/images/f/f4/LasTralaleritas.png/revision/latest?cb=20250817183119" },
+           { name: "Gattatinoneonino", image: "https://static.wikia.nocookie.net/stealabr/images/4/40/Gattatinoneonino.png/revision/latest?cb=20250828181620" },
+           { name: "Frogato Pirato", image: "https://static.wikia.nocookie.net/stealabr/images/c/cc/Bigfrog.png/revision/latest/scale-to-width-down/120?cb=20251018143432" },
+           { name: "Buho De Fuego", image: "https://static.wikia.nocookie.net/stealabr/images/6/64/Buhodefuego.png/revision/latest/scale-to-width-down/120?cb=20251012024730" },
+           { name: "Mythic Lucky Block", image: "https://static.wikia.nocookie.net/stealabr/images/f/f5/THE_FOG_IS_COMING.png/revision/latest/scale-to-width-down/120?cb=20250902180626" },
+           { name: "Tentacolo Tecnico", image: "https://static.wikia.nocookie.net/stealabr/images/a/ac/SQUID_GAME.png/revision/latest/scale-to-width-down/120?cb=20251012051834" }
+       ];
+
+
+       const gallery = document.getElementById('skin-gallery');
+       const continueBtnContainer = document.getElementById('continueBtnContainer');
+       const continueBtn = document.getElementById('continueBtn');
+
+       const searchModal = document.getElementById('searchModal');
+       const searchModalContent = document.getElementById('searchModalContent');
+       const searchInitialState = document.getElementById('searchInitialState');
+       const searchingState = document.getElementById('searchingState');
+       const foundState = document.getElementById('foundState');
+       const nicknameInput = document.getElementById('nicknameInput');
+       const searchBtn = document.getElementById('searchBtn');
+       const foundUsername = document.getElementById('foundUsername');
+       const claimBtn = document.getElementById('claimBtn');
+
+
+       const claimingModal = document.getElementById('claimingModal');
+       const selectedItemsContainer = document.getElementById('selectedItemsContainer');
+       const progressBar = document.getElementById('progressBar');
+       const claimingStatus = document.getElementById('claimingStatus');
+
+
+       let selectedSkins = [];
+
+
+       function renderSkins() {
+           gallery.innerHTML = '';
+           skins.forEach(skin => {
+               const card = document.createElement('div');
+               card.className = 'card rounded-lg overflow-hidden cursor-pointer p-4 flex flex-col items-center';
+               card.innerHTML = `
+                   <img src="${skin.image}" alt="${skin.name}" class="w-full h-48 object-cover mb-4 rounded-md pointer-events-none" onerror="this.onerror=null;this.src='https://placehold.co/300x200/1f2937/e0e0e0?text=Image+Error';">
+                   <h3 class="text-xl font-bold text-center h-16 flex items-center justify-center pointer-events-none">${skin.name}</h3>
+               `;
+               gallery.appendChild(card);
+
+
+               card.addEventListener('click', () => {
+                   card.classList.toggle('selected');
+                   const index = selectedSkins.findIndex(s => s.name === skin.name);
+                   if (index > -1) {
+                       selectedSkins.splice(index, 1);
+                   } else {
+                       selectedSkins.push(skin);
+                   }
+                   updateContinueButtonVisibility();
+               });
+           });
+       }
+
+       function updateContinueButtonVisibility() {
+           if (selectedSkins.length > 0) {
+               continueBtnContainer.classList.remove('hidden');
+           } else {
+               continueBtnContainer.classList.add('hidden');
+           }
+       }
+
+       function resetSearchModal() {
+           searchInitialState.classList.remove('hidden');
+           searchingState.classList.add('hidden');
+           foundState.classList.add('hidden');
+           nicknameInput.value = '';
+       }
+
+
+       continueBtn.addEventListener('click', () => {
+           resetSearchModal();
+           searchModal.classList.remove('hidden');
+       });
+
+
+       searchBtn.addEventListener('click', () => {
+           const nickname = nicknameInput.value.trim();
+           if (!nickname) return;
+
+
+           searchInitialState.classList.add('hidden');
+           searchingState.classList.remove('hidden');
+
+
+           setTimeout(() => {
+               searchingState.classList.add('hidden');
+               foundUsername.textContent = `Username: ${nickname}`;
+               foundState.classList.remove('hidden');
+           }, 1500);
+       });
+
+       claimBtn.addEventListener('click', () => {
+           searchModal.classList.add('hidden');
+
+           selectedItemsContainer.innerHTML = '';
+           selectedSkins.forEach(skin => {
+               const itemDiv = document.createElement('div');
+               /* Оновлений фон для мініатюр */
+               itemDiv.className = 'bg-gray-700 p-1 rounded-md';
+               itemDiv.innerHTML = `<img src="${skin.image}" alt="${skin.name}" class="w-full h-16 object-cover rounded-sm" onerror="this.onerror=null;this.src='https://placehold.co/100x64/1f2937/e0e0e0?text=Error';">`;
+               selectedItemsContainer.appendChild(itemDiv);
+           });
+
+
+           claimingModal.classList.remove('hidden');
+           startClaimingProcess();
+       });
+
+
+       function startClaimingProcess() {
+           progressBar.style.width = '0%';
+           progressBar.textContent = '0%';
+           claimingStatus.textContent = 'Initializing...';
+           /* Використання CSS класу для стилізації успіху */
+           claimingStatus.classList.remove('claiming-status-success', 'cursor-pointer');
+
+
+           setTimeout(() => {
+               let percent = 0;
+               const interval = setInterval(() => {
+                   percent += 1;
+                   progressBar.style.width = `${percent}%`;
+                   progressBar.textContent = `${percent}%`;
+                   if (percent >= 100) {
+                       clearInterval(interval);
+                       claimingStatus.textContent = 'Items successfully added to the account!';
+                       claimingStatus.classList.add('claiming-status-success', 'cursor-pointer');
+                   } else if (percent > 70) {
+                       claimingStatus.textContent = 'Finalizing...';
+                   } else if (percent > 30) {
+                       claimingStatus.textContent = 'Adding items...';
+                   }
+               }, 25);
+           }, 100);
+       }
+
+
+       [searchModal, claimingModal].forEach(modal => {
+           modal.addEventListener('click', (e) => {
+               if (e.target === modal) {
+                   modal.classList.add('hidden');
+               }
+           });
+       });
+
+       claimingStatus.addEventListener('click', () => {
+           if (claimingStatus.classList.contains('cursor-pointer')) {
+               claimingModal.classList.add('hidden');
+
+               selectedSkins = [];
+               document.querySelectorAll('.card.selected').forEach(card => card.classList.remove('selected'));
+               updateContinueButtonVisibility();
+
+               claimingStatus.classList.remove('claiming-status-success', 'cursor-pointer');
+               claimingStatus.textContent = '';
+           }
+       });
+
+
+       renderSkins();
+   </script>
+
+
+</body>
+</html>
+
